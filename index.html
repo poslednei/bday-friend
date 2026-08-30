@@ -78,7 +78,6 @@
             color: var(--accent-color);
         }
 
-        /* Стиль для Пазла */
         #puzzle-board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -121,7 +120,7 @@
     <div id="game1-screen" class="screen">
         <h2>Рівень 1: Обход крінжа(?)</h2>
         <p>> Введи секретний код (Рік нашого 1го разу):</p>
-        <input type="text" id="code-input" placeholder="XXXX">
+        <input type="text" id="code-input" placeholder="XXXX" onkeydown="if(event.key === 'Enter') checkCode()">
         <button class="btn" onclick="checkCode()">ПІДТВЕРДИТИ</button>
         <p id="game1-error" style="color: red; text-align: center;"></p>
     </div>
@@ -152,7 +151,7 @@
     <div id="game3-screen" class="screen">
         <h2>Рівень 3: Перевірка надійності</h2>
         <p>> Самий важний вопрос який нас преслідує вже ну десь з середи або грудня?</p>
-        <input type="text" id="quiz-input" placeholder="Коли...">
+        <input type="text" id="quiz-input" placeholder="Коли..." onkeydown="if(event.key === 'Enter') checkQuiz()">
         <button class="btn" onclick="checkQuiz()">ВІДПРАВИТИ</button>
         <p id="game3-error" style="color: red; text-align: center;"></p>
     </div>
@@ -176,57 +175,45 @@
 </div>
 
 <script>
-    // Переключение экранов
     function nextScreen(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
         if(screenId === 'game2-screen') initPuzzle();
     }
 
-    // Игра 1: Код
     function checkCode() {
-        const input = document.getElementById('code-input').value;
-        // Замени '2005' на нужный год или код
-        if (input.trim() === '2023' || input.trim() === '1234') { 
+        const input = document.getElementById('code-input').value.trim();
+        if (input === '2023' || input === '1234') { 
             nextScreen('reward1-screen');
         } else {
             document.getElementById('game1-error').innerText = 'ПОМИЛКА: ЯК ЦЕ ТИ НЕ ПОМНИШ????';
         }
     }
 
-	// Обновленная функция для Игры 3
-	function checkQuiz() {
-		// Получаем значение, убираем лишние пробелы по краям и приводим к нижнему регистру
-		const input = document.getElementById('quiz-input').value.trim().toLowerCase();
-		const errorElement = document.getElementById('game3-error');
+    function checkQuiz() {
+        const input = document.getElementById('quiz-input').value.trim().toLowerCase();
+        const errorElement = document.getElementById('game3-error');
 
-		// Укажи здесь правильный ответ в нижнем регистре (или оставь проверку на любое введённое слово)
-		const SECRET_ANSWER = "гуль"; // <-- НАПИШИ СЮДА ПРАВИЛЬНЫЙ ОТВЕТ (в нижнем регистре)
+        if (input === "") {
+            errorElement.innerText = 'ПОМИЛКА: Ти той само не наглій';
+            return;
+        }
 
-		if (input === "") {
-			errorElement.innerText = 'ПОМИЛКА: Ти той само не наглій';
-			return;
-		}
+        // Перевіряємо, чи є в написаному тексті слово "гуль"
+        if (input.includes("гуль")) {
+            errorElement.innerText = '';
+            nextScreen('reward3-screen');
+        } else {
+            errorElement.innerText = 'ПОМИЛКА: Я ПОДУМАЮ, І ТЕПЕР НЕ НА ТВОЮ КОРИСТЬ(ЛАДНО ПЕРЕДУМАЮ)';
+        }
+    }
 
-		// Если нужно принимать ЛЮБОЙ ответ, расскоментируй строчку ниже и закомментируй проверку (input === SECRET_ANSWER)
-		// nextScreen('reward3-screen');
-
-		if (input === SECRET_ANSWER.toLowerCase()) {
-			errorElement.innerText = ''; // Очищаем ошибку
-			nextScreen('reward3-screen');
-		} else {
-			errorElement.innerText = 'ПОМИЛКА: Я ПОДУМАЮ, І ТЕПЕР НЕ НА ТВОЮ КОРИСТЬ(ЛАДНО ПЕРЕДУМАЮ)';
-		}
-	}
-
-    // Игра 2: Простой пазл 3х3
-    const puzzleImg = 'https://cdn.discordapp.com/attachments/1335393242660868149/1543570038324203560/image_1.png?ex=6a95591f&is=6a94079f&hm=e44d45e92a2558607aaec780bd67fc2ca52dba32d7fd83343b0936cfb5fd2552'; // Замени на ссылку на ваше фото!
+    const puzzleImg = 'https://cdn.discordapp.com/attachments/1335393242660868149/1543570038324203560/image_1.png?ex=6a95591f&is=6a94079f&hm=e44d45e92a2558607aaec780bd67fc2ca52dba32d7fd83343b0936cfb5fd2552';
     let pieces = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
     function initPuzzle() {
         const board = document.getElementById('puzzle-board');
         board.innerHTML = '';
-        // Перемешиваем
         pieces.sort(() => Math.random() - 0.5);
 
         pieces.forEach((pos, index) => {
@@ -234,7 +221,6 @@
             div.className = 'puzzle-piece';
             div.style.backgroundImage = `url(${puzzleImg})`;
             
-            // Расчет позиции фона
             const row = Math.floor(pos / 3);
             const col = pos % 3;
             div.style.backgroundPosition = `-${col * 100}px -${row * 100}px`;
@@ -250,13 +236,11 @@
             firstPick = index;
             document.getElementById('puzzle-board').children[index].style.borderColor = 'red';
         } else {
-            // Меняем местами
             let temp = pieces[firstPick];
             pieces[firstPick] = pieces[index];
             pieces[index] = temp;
             firstPick = null;
             
-            // Перерисовываем
             renderPuzzle();
             checkPuzzleWin();
         }
