@@ -23,16 +23,32 @@
             align-items: center;
             justify-content: center;
             min-height: 90vh;
+            overflow-x: hidden;
+        }
+
+        /* Канвас для матричної анімації на фоні */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1; /* Фон знаходиться ПОЗАДУ всього */
+            opacity: 0.25; /* Прозорість, щоб текст легко читався */
+            pointer-events: none;
         }
 
         .container {
+            position: relative;
+            z-index: 2; /* Контент поверх фону */
             width: 100%;
             max-width: 600px;
             border: 1px solid var(--main-color);
             padding: 20px;
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
-            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+            background: rgba(0, 0, 0, 0.85); /* Трохи темніший фон картки для читабельності */
             border-radius: 5px;
+            backdrop-filter: blur(3px); /* Легке розмиття фону під карткою */
         }
 
         h1, h2 {
@@ -40,6 +56,7 @@
             text-align: center;
             text-transform: uppercase;
             letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(0, 255, 102, 0.5);
         }
 
         .btn {
@@ -54,12 +71,13 @@
             display: block;
             margin: 15px auto;
             width: 80%;
+            box-shadow: 0 0 5px rgba(0, 255, 102, 0.2);
         }
 
         .btn:hover {
             background: var(--main-color);
             color: var(--bg-color);
-            box-shadow: 0 0 10px var(--main-color);
+            box-shadow: 0 0 15px var(--main-color);
         }
 
         .screen {
@@ -108,6 +126,9 @@
     </style>
 </head>
 <body>
+
+<!-- Додаємо канвас для анімації Матриці -->
+<canvas id="matrix-canvas"></canvas>
 
 <div class="container">
     <div id="start-screen" class="screen active">
@@ -168,13 +189,55 @@
         <h1 style="color: var(--accent-color);">З ДНЕМ НАРОДЖЕННЯ!</h1>
         <p>> Доступ до самого важного отриман.</p>
         <p style="line-height: 1.6;">
-            Костя, ми знайомі вже як майже 4 роки, і я радий що ми змогли пройти скрізь все, що трапилось між та навколо нас. Ти став для мене найкращим другом, і тим, з ким можна бути собою. Ти легенда і я розумію, що багато речей без тебе зовсім би не вишли. Ще раз вітаю тебе, бажаю тобі завжди бути таким ахуенним! (Ешкере, 67, 69, 42, шо там ще в тренді?, сіськи, піськи, гашиш, ура)
+            Костя, ми знайомі вже як майже 4 роки, і я радий що ми змогли пройти скрізь все, що трапилось між та навколо нас. Ти став для мене опорою, другом, і тим, з ким можна бути собою. Ти легенда і я розумію, що багато речей без тебе зовсім би не вишли. Ще раз вітаю тебе, бажаю тобі завжди бути таким ахуенним! (Ешкере, 67, 69, 42, шо там ще в тренді?, сіськи, піськи, гашиш, ура)
         </p>
         <p style="text-align: right; color: var(--main-color);">- Ярииииииииииик :)</p>
     </div>
 </div>
 
 <script>
+    // --- АНІМАЦІЯ ФОНУ (МАТРИЦЯ / ЦИФРОВИЙ ПРОСТІР) ---
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const chars = '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ#$@%&*';
+    const fontSize = 14;
+    let columns = Math.floor(canvas.width / fontSize);
+    let drops = Array(columns).fill(1);
+
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(13, 13, 13, 0.08)'; // Ефект шлейфу
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#00ff66';
+        ctx.font = fontSize + 'px monospace';
+
+        columns = Math.floor(canvas.width / fontSize);
+        if(drops.length !== columns) {
+            drops = Array(columns).fill(1);
+        }
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = chars.charAt(Math.floor(Math.random() * chars.length));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+    setInterval(drawMatrix, 33); // 30 кадрів на секунду
+
+
+    // --- ЛОГІКА САЙТУ ТА ІГОР ---
     function nextScreen(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
@@ -199,7 +262,6 @@
             return;
         }
 
-        // Перевіряємо, чи є в написаному тексті слово "гуль"
         if (input.includes("гуль")) {
             errorElement.innerText = '';
             nextScreen('reward3-screen');
