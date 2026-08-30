@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B-DAY SEX EDITION HACK</title>
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --main-color: #00ff66;
+            --accent-color: #00ffff;
+            --text-color: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid var(--main-color);
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+        }
+
+        h1, h2 {
+            color: var(--main-color);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--main-color);
+            border: 1px solid var(--main-color);
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 15px auto;
+            width: 80%;
+        }
+
+        .btn:hover {
+            background: var(--main-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 10px var(--main-color);
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .reward-card {
+            background: rgba(0, 255, 102, 0.05);
+            border-left: 3px solid var(--main-color);
+            padding: 10px 15px;
+            margin: 15px 0;
+            color: var(--accent-color);
+        }
+
+        /* Стиль для Пазла */
+        #puzzle-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            width: 300px;
+            height: 300px;
+            margin: 10px auto;
+            border: 2px solid var(--main-color);
+        }
+
+        .puzzle-piece {
+            background-size: 300px 300px;
+            cursor: pointer;
+            border: 1px dashed rgba(0, 255, 102, 0.3);
+        }
+
+        input[type="text"] {
+            background: black;
+            border: 1px solid var(--main-color);
+            color: var(--main-color);
+            padding: 8px;
+            width: 80%;
+            display: block;
+            margin: 10px auto;
+            text-align: center;
+            font-family: inherit;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="start-screen" class="screen active">
+        <h1>[SYSTEM ACCESS]</h1>
+        <p>> Знайдена защита ваших даних... '(очка)'</p>
+        <p>> Треба обійти захист вашої недоторканості сьогодні.</p>
+        <button class="btn" onclick="nextScreen('game1-screen')">СПРОБУВАТИ ВЗЛАМАТИ</button>
+    </div>
+
+    <div id="game1-screen" class="screen">
+        <h2>Рівень 1: Обход крінжа(?)</h2>
+        <p>> Введи секретний код (Рік нашого 1го разу):</p>
+        <input type="text" id="code-input" placeholder="XXXX">
+        <button class="btn" onclick="checkCode()">ПІДТВЕРДИТИ</button>
+        <p id="game1-error" style="color: red; text-align: center;"></p>
+    </div>
+
+    <div id="reward1-screen" class="screen">
+        <h2>[БЛОК 1 РОЗБЛОКОВАНИЙ]</h2>
+        <div class="reward-card">
+            <p>Крінж анульований... Дякую тобі за твій гумор, постійну підтримку та просто за те, що на тебе можна покластися!</p>
+        </div>
+        <button class="btn" onclick="nextScreen('game2-screen')">НАСТУПНИЙ РІВЕНЬ</button>
+    </div>
+
+    <div id="game2-screen" class="screen">
+        <h2>Рівень 2: Востановити нюдес</h2>
+        <p>> Нажимай на елементи, щоб зібрати зашифроване фото:</p>
+        <div id="puzzle-board"></div>
+        <button class="btn" onclick="completePuzzleDirectly()">[DEV] Пропустити пазл</button>
+    </div>
+
+    <div id="reward2-screen" class="screen">
+        <h2>[БЛОК 2 РОЗБЛОКОВАНИЙ]</h2>
+        <div class="reward-card">
+            <p>Нюдс взборі) Дякую тобі за безліч незабутніх та неповторних моментів разом! Вони назавжди в самому серці!</p>
+        </div>
+        <button class="btn" onclick="nextScreen('game3-screen')">ПОСЛЕДНИЙ УРОВЕНЬ</button>
+    </div>
+
+    <div id="game3-screen" class="screen">
+        <h2>Рівень 3: Перевірка надійності</h2>
+        <p>> Самий важний вопрос який нас преслідує вже ну десь з середи або грудня?</p>
+        <input type="text" id="quiz-input" placeholder="Коли...">
+        <button class="btn" onclick="checkQuiz()">ВІДПРАВИТИ</button>
+        <p id="game3-error" style="color: red; text-align: center;"></p>
+    </div>
+
+    <div id="reward3-screen" class="screen">
+        <h2>[БЛОК 3 РОЗБЛОКОВАНИЙ]</h2>
+        <div class="reward-card">
+            <p>Бажаю тобі успіхів, міцного здоров'я, найлегшого шляху та всього найкращого! (Гуль буде)(Наверно)(Ну розберемся)</p>
+        </div>
+        <button class="btn" style="border-color: var(--accent-color); color: var(--accent-color);" onclick="nextScreen('final-screen')">ОТКРЫТЬ ГЛАВНЫЙ АРХИВ</button>
+    </div>
+
+    <div id="final-screen" class="screen">
+        <h1 style="color: var(--accent-color);">З ДНЕМ НАРОДЖЕННЯ!</h1>
+        <p>> Доступ до самого важного отриман.</p>
+        <p style="line-height: 1.6;">
+            Костя, ми знайомі вже як майже 4 роки, і я радий що ми змогли пройти скрізь все, що трапилось між та навколо нас. Ти став для мене опорою, другом, і тим, з ким можна бути собою. Ти легенда і я розумію, що багато речей без тебе зовсім би не вишли. Ще раз вітаю тебе, бажаю тобі завжди бути таким ахуенним! (Ешкере, 67, 69, 42, шо там ще в тренді?, сіськи, піськи, гашиш, ура)
+        </p>
+        <p style="text-align: right; color: var(--main-color);">- Ярииииииииииик :)</p>
+    </div>
+</div>
+
+<script>
+    // Переключение экранов
+    function nextScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+        if(screenId === 'game2-screen') initPuzzle();
+    }
+
+    // Игра 1: Код
+    function checkCode() {
+        const input = document.getElementById('code-input').value;
+        // Замени '2005' на нужный год или код
+        if (input.trim() === '2023' || input.trim() === '1234') { 
+            nextScreen('reward1-screen');
+        } else {
+            document.getElementById('game1-error').innerText = 'ПОМИЛКА: ЯК ЦЕ ТИ НЕ ПОМНИШ????';
+        }
+    }
+
+    // Игра 3: Ответ на вопрос
+    function checkQuiz() {
+        const input = document.getElementById('гуль').value.toLowerCase();
+        // Укажи нужное слово или оставь проверку на любую непустую строку
+        if (input.length > 0) { 
+            nextScreen('reward3-screen');
+        } else {
+            document.getElementById('game3-error').innerText = 'ПОМИЛКА: Я ПОДУМАЮ, І ТЕПЕР НЕ НА ТВОЮ КОРИСТЬ(ЛАДНО ПЕРЕДУМАЮ)';
+        }
+    }
+
+    // Игра 2: Простой пазл 3х3
+    const puzzleImg = 'https://cdn.discordapp.com/attachments/1335393242660868149/1543570038324203560/image_1.png?ex=6a95591f&is=6a94079f&hm=e44d45e92a2558607aaec780bd67fc2ca52dba32d7fd83343b0936cfb5fd2552'; // Замени на ссылку на ваше фото!
+    let pieces = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
+    function initPuzzle() {
+        const board = document.getElementById('puzzle-board');
+        board.innerHTML = '';
+        // Перемешиваем
+        pieces.sort(() => Math.random() - 0.5);
+
+        pieces.forEach((pos, index) => {
+            const div = document.createElement('div');
+            div.className = 'puzzle-piece';
+            div.style.backgroundImage = `url(${puzzleImg})`;
+            
+            // Расчет позиции фона
+            const row = Math.floor(pos / 3);
+            const col = pos % 3;
+            div.style.backgroundPosition = `-${col * 100}px -${row * 100}px`;
+            
+            div.onclick = () => swapPieces(index);
+            board.appendChild(div);
+        });
+    }
+
+    let firstPick = null;
+    function swapPieces(index) {
+        if (firstPick === null) {
+            firstPick = index;
+            document.getElementById('puzzle-board').children[index].style.borderColor = 'red';
+        } else {
+            // Меняем местами
+            let temp = pieces[firstPick];
+            pieces[firstPick] = pieces[index];
+            pieces[index] = temp;
+            firstPick = null;
+            
+            // Перерисовываем
+            renderPuzzle();
+            checkPuzzleWin();
+        }
+    }
+
+    function renderPuzzle() {
+        const board = document.getElementById('puzzle-board');
+        Array.from(board.children).forEach((div, index) => {
+            const pos = pieces[index];
+            const row = Math.floor(pos / 3);
+            const col = pos % 3;
+            div.style.backgroundPosition = `-${col * 100}px -${row * 100}px`;
+            div.style.borderColor = 'rgba(0, 255, 102, 0.3)';
+        });
+    }
+
+    function checkPuzzleWin() {
+        const isWin = pieces.every((val, index) => val === index);
+        if (isWin) {
+            setTimeout(() => {
+                alert('Изображение восстановлено!');
+                nextScreen('reward2-screen');
+            }, 300);
+        }
+    }
+
+    function completePuzzleDirectly() {
+        nextScreen('reward2-screen');
+    }
+</script>
+
+</body>
+</html>
